@@ -1,12 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import {
   login,
-  continueWithGoogle,
-  handleGoogleCallback,
 } from "@/services/authService";
 
 interface FormData {
@@ -14,19 +11,9 @@ interface FormData {
   password: string;
 }
 
-interface GoogleError {
-  message: string;
-  error: any;
-}
-
-// const redirectUri = "http://localhost:3000/login/";
-
 const SignIn = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [googleLoading, setGoogleLoading] = useState<boolean>(false);
-  // const [googleError, setGoogleError] = useState<GoogleError | null>(null);
   const [error, setError] = useState<string | null>(null);
-  // const searchParams = useSearchParams();
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
@@ -57,43 +44,12 @@ const SignIn = () => {
     }
   };
 
-  // const continueWithGoogleAuth = async () => {
-  //   try {
-  //     setGoogleError(null);
-  //     setGoogleLoading(true);
-  //     const authUrl = await continueWithGoogle(redirectUri);
-  //     window.location.replace(authUrl);
-  //   } catch (err: any) {
-  //     setGoogleError({ message: err.message, error: err });
-  //     setGoogleLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
     const token = Cookies.get("access_token");
     if (token) {
       router.push("/");
     }
   }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const state = searchParams.get("state");
-  //     const code = searchParams.get("code");
-
-  //     if (state && code) {
-  //       try {
-  //         await handleGoogleCallback(state, code);
-  //         const referrer = document.referrer || "/";
-  //         router.replace(referrer);
-  //       } catch (error) {
-  //         setGoogleLoading(false);
-  //       }
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [router]);
 
   return (
     <div className="relative min-h-screen bg-[#080710] flex items-center justify-center">
@@ -134,37 +90,13 @@ const SignIn = () => {
           className="w-full h-12 mt-2 bg-white/10 text-white rounded px-3 text-sm placeholder-gray-300 outline-none"
         />
 
-        {/* {error && <p className="text-red-500 mt-2 text-sm">{error}</p>} */}
-        {/* {googleError && (
-          <div className="text-center text-red-500 mt-2">
-            {googleError.message}
-          </div>
-        )} */}
-         <button
+        {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+        <button
           type="submit"
           className="w-full mt-6 py-3 bg-white text-[#080710] rounded text-lg font-semibold hover:bg-gray-200 transition"
         >
           {loading ? "Loading..." : "Log In"}
-        </button> 
-
-        {/* Google/Facebook login buttons */}
-        {/* <div className="flex space-x-4 mt-8">
-          <div
-            onClick={continueWithGoogleAuth}
-            className="flex items-center justify-center px-4 py-3 bg-white/25 text-white rounded hover:bg-white/40 transition cursor-pointer"
-          >
-            Google
-          </div>
-        </div> */}
-
-        {/* <p className="mt-4 text-white">
-          Don’t have an account?{" "}
-          <Link href="/signup">
-            <span className="text-red-500 underline font-bold">
-              Create account
-            </span>
-          </Link>
-        </p> */}
+        </button>
       </form>
     </div>
   );
