@@ -140,12 +140,12 @@ const SignIn = () => {
             {googleError.message}
           </div>
         )} */}
-        {/* <button
+       <button
           type="submit"
           className="w-full mt-6 py-3 bg-white text-[#080710] rounded text-lg font-semibold hover:bg-gray-200 transition"
         >
-          {loading || googleLoading ? "Loading..." : "Log In"}
-        </button> */}
+          {loading ? "Loading..." : "Log In"}
+        </button> 
 
         {/* Google/Facebook login buttons */}
         {/* <div className="flex space-x-4 mt-8">
